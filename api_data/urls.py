@@ -1,6 +1,6 @@
 from django.urls import path
 from django.urls import path
-from rest_framework.authtoken.views import obtain_auth_token
+from .custom_auth import CustomAuthToken
 from rest_framework.permissions import AllowAny # Import AllowAny
 from .views import (
     UserListCreateView,
@@ -18,10 +18,10 @@ urlpatterns = [
     # User URLs
     path('users/', UserListCreateView.as_view(), name='user-list-create'),
     path('users/<int:pk>/', UserRetrieveUpdateDestroyView.as_view(), name='user-detail'),
-    path('users/me/', CurrentUserView.as_view(), name='current-user-detail'),
+    
     
     # Authentication URLs
-    path('login/', obtain_auth_token, name='api-token-auth'), # obtain_auth_token does not need permission_classes=[AllowAny] here, as it's handled by the global settings or its own internal logic.
+    path('login/', CustomAuthToken.as_view(), name='api-token-auth'),
 
     # IrrigationEvent URLs
     path('irrigation-events/', IrrigationEventListCreateView.as_view(), name='irrigation-event-list-create'),

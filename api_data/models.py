@@ -4,9 +4,10 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
-        ('default', 'Default'),
+        ('farmer', 'Farmer'),
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='default')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='farmer')
+    
 
 class IrrigationEvent(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)

@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api_data',
     'rest_framework',
-    'rest_framework.authtoken', # Add this line
     'corsheaders',
     'drf_yasg',
 ]
@@ -128,11 +127,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -140,3 +140,26 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
     "http://127.0.0.1:4200",
 ]
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Enter your JWT token in the format: Bearer <your_token>'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'PERSIST_AUTH': True,
+    'DOC_EXPANSION': 'none',
+    'OPERATIONS_SORTER': 'alpha',
+    'TAGS_SORTER': None,  # Disable alphabetical sorting to maintain our custom order
+    'DEFAULT_MODEL_RENDERING': 'model',
+    'DEFAULT_GENERATOR_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
+    'DEFAULT_AUTO_SCHEMA_CLASS': 'api_data.swagger_utils.CustomSwaggerAutoSchema',
+    'DEFAULT_API_URL': 'http://localhost:8000/api/',
+    'DEFAULT_INFO': 'SmartIrrigation.urls.swagger_info',
+}

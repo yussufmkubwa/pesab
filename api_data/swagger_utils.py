@@ -24,5 +24,7 @@ class CustomSwaggerAutoSchema(SwaggerAutoSchema):
             return ["3-IoT Device API"]
         elif primary_tag.startswith('api/devices/'):
             return ["4-Web Interface Device API"]
+        elif primary_tag.startswith('api/blynk/'):
+            return ["5-Blynk Integration API"]
         else:
-            return ["5-Other Endpoints"]
+            return ["6-Other Endpoints"]

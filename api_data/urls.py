@@ -18,6 +18,12 @@ from .iot_views import (
     IoTPumpControlDetailView
 )
 from .auth_views import DecoratedTokenObtainPairView, DecoratedTokenRefreshView
+from .blynk_integration import (
+    BlynkTemperatureView,
+    BlynkSoilMoistureView, 
+    BlynkPumpStatusView,
+    BlynkDashboardDataView
+)
 
 # Group the URLs by API category
 user_management_patterns = [
@@ -56,6 +62,14 @@ iot_device_patterns = [
     path('pump-control/<int:pk>/', IoTPumpControlDetailView.as_view(), name='iot-pump-control-detail'),
 ]
 
+# Blynk integration patterns
+blynk_patterns = [
+    path('temperature/', BlynkTemperatureView.as_view(), name='blynk-temperature'),
+    path('soil-moisture/', BlynkSoilMoistureView.as_view(), name='blynk-soil-moisture'),
+    path('pump-status/', BlynkPumpStatusView.as_view(), name='blynk-pump-status'),
+    path('dashboard-data/', BlynkDashboardDataView.as_view(), name='blynk-dashboard-data'),
+]
+
 # Main urlpatterns with categorized URLs
 urlpatterns = [
     # User Management API - for managing system users
@@ -69,6 +83,9 @@ urlpatterns = [
     
     # IoT Device API - dedicated endpoints for IoT devices (no authentication)
     path('iot/', include((iot_device_patterns, 'api_data'), namespace='iot-device')),
+    
+    # Blynk Integration API - for integrating with Blynk IoT platform
+    path('blynk/', include((blynk_patterns, 'api_data'), namespace='blynk-integration')),
     
     # Legacy direct paths for IoT devices - maintained for backward compatibility
     # These should be used by ESP32 devices using the original code

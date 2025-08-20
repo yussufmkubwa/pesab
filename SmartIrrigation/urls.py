@@ -4,7 +4,6 @@ from django.urls import path, include, re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from api_data.views import CurrentUserView
 
 # Create schema views for different API categories
 schema_view = get_schema_view(
@@ -59,8 +58,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api_data.urls')),
-    # Deprecated - now accessible via /api/auth/me/
-    path('me/', CurrentUserView.as_view(), name='current-user-detail'),
+    # Removed deprecated path - now accessible via /api/auth/me/
     
     # API Documentation URLs
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
